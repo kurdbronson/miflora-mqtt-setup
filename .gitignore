@@ -172,3 +172,14 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Docker runtime
+docker/mosquitto/data/
+docker/mosquitto/log/
+
+# Python
+.venv/
+__pycache__/
+
+# Local environment
+.env

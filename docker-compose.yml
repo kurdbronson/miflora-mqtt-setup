@@ -1,0 +1,25 @@
+
+services:
+
+  mqtt:
+    image: eclipse-mosquitto:2
+    container_name: mqtt-broker
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./docker/mosquitto/config:/mosquitto/config
+      - ./docker/mosquitto/data:/mosquitto/data
+      - ./docker/mosquitto/log:/mosquitto/log
+
+  miflora:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: miflora-daemon
+    environment:
+      - MQTT_HOST=${MQTT_HOST}
+      - MQTT_PORT=${MQTT_PORT}
+      - LOG_LEVEL=${LOG_LEVEL}
+    volumes:
+      - ./src:/app
+      - ./config:/app/config
