@@ -1,4 +1,4 @@
-
+version: "3.8"
 services:
 
   mqtt:
@@ -14,16 +14,18 @@ services:
 
   miflora:
     build:
-      context: .
-      dockerfile: docker/Dockerfile
+      context: ./src
+      dockerfile: Dockerfile
     container_name: miflora-daemon
     restart: always
     environment:
-      - MQTT_HOST=${MQTT_HOST}
-      - MQTT_PORT=${MQTT_PORT}
-      - LOG_LEVEL=${LOG_LEVEL}
+      - MQTT_HOST=localhost
+      - MQTT_PORT=1883
+      - LOG_LEVEL=INFO
     volumes:
       - ./src:/app
-      - ./config:/app/config
+      - ./src/config.ini:/app/config.ini:ro 
+    working_dir: /app
+    command: python /app/miflora-mqtt-daemon.py
     depends_on:
       - mqtt
